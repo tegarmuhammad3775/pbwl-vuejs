@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Rekapitulasi Penilaian Skripsi 2</title>
+<head>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        h1{
+            margin-top:20px;
+        }
+        .input{
+            margin-top:15px;
+        }
+        .table1{
+            margin-top:15px;
+            text-align : center;          
+        }
+        .table2{
+            margin-top:15px;
+            text-align : center;          
+        }
+        .table3{
+            margin-top:15px;
+            text-align : center;          
+        }
+
+        table{
+            border: 1px solid;  
+           
+        }
+        table th{
+            border-right: 1px solid;
+            border-bottom: 1px solid;
+            padding:15px;
+        }
+        table td{
+            border-right: 1px solid;
+            border-bottom: 1px solid;
+            padding:5px;         
+        }
+
+        .line {
+            margin:5px 0;
+            height:2px;
+            background:
+            repeating-linear-gradient(to right,black 0,black 8px,transparent 8px,transparent 10px)
+            /*5px red then 2px transparent -> repeat this!*/
+        }
+    
+        
+
+    </style>
+    
+</head>
+
+<body>
+       
+    <div id="judul1" align="center">
+        <h1>{{message}}</h1>
+        <form action="">
+        {{npm}} <input type="text" class="input">
+        </form>
+    </div>
+
+    <div class="table1" align="center">
+            <table id="tablePembimbing1" align="center" style="display:inline-block"> 
+                    <thead> 
+                        <tr>
+                        <th>Komponen Penilaian</th>
+                        <th>Nilai Sidang</th>
+                        <th>Penilaian Tahapan*</th>
+                        <th>Rata - Rata</th>
+                        <th>Bobot</th>
+                        <th>Nilai Akhir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template v-for="row in rows">
+                        <tr>
+                        <td>{{row.Komponen_Penilaian}}</td>
+                        <td><input type="text" name="nilaiSidang" id="nilaiSidang1"></td>
+                        <td><input type="text" name="PenilaianTahapan" id="PenilaianTahapan1"></td>
+                        <td><input type="text" name="rataRata" id="avg1"></td>
+                        <td>{{row.bobot}}</td>
+                        <td>{{row.nilaiAKhir}}</td>
+                        </tr>
+                        </template>
+                    </tbody>
+                </table>
+                
+                <table id="tablePembimbing2" align="center" style="display:inline-block"> 
+                    <thead> 
+                        <tr>
+                        <th>Tgl: &emsp; / &emsp; /20 &emsp; </th>
+                        </tr>
+                    </thead>
+                    <template v-for="row in rows">
+                    <tbody>
+                        <tr>
+                            <td v-if="row.idx != 1 || row.id !=6":rowspan="2" align="left">{{row.ttd}}</td> 
+                        </tr>
+                    </tbody>
+                    </template>
+                </table>
+           
+
+        <p id="footer1">{{footer}}<p>
+    </div>
+
+
+<div class="line"></div>
+
+    <div id="judul2" align="center">
+            <h1>{{message}}</h1>
+            <form action="">
+            {{npm}} <input type="text" class="input">
+            </form>
+        </div>
+    
+        <div class="table2" align="center">
+                <table id="tableKetuaPenguji1" align="center" style="display:inline-block"> 
+                        <thead> 
+                            <tr>
+                            <th>Komponen Penilaian</th>
+                            <th>Nilai </th>>
+                            <th>Bobot</th>
+                            <th>Nilai Akhir</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template v-for="row in rows">
+                            <tr>
+                            <td>{{row.Komponen_Penilaian}}</td>
+                            <td><input type="text" name="nilai" id="nilai2"></td> 
+                            <td>{{row.bobot}}</td> 
+                            <td>{{row.nilaiAKhir}}</td>
+                            </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                    
+                    <table id="tableKetuaPenguji2" align="center" style="display:inline-block"> 
+                        <thead> 
+                            <tr>
+                            <th>Tgl: &emsp; / &emsp; /20 &emsp; </th>
+                            </tr>
+                        </thead>
+                        <template v-for="row in rows">
+                        <tbody>
+                            <tr>
+                                <td v-if="row.idx != 1 || row.id !=6":rowspan="2" align="left">{{row.ttd}}</td> 
+                            </tr>
+                        </tbody>
+                        </template>
+                    </table>
+        </div>
+
+<div class="line"></div>
+
+<div id="judul3" align="center">
+        <h1>{{message}}</h1>
+        <form action="">
+        {{npm}} <input type="text" class="input">
+        </form>
+    </div>
+
+    <div class="table3" align="center">
+
+            <table id="tableAnggotaPenguji1" align="center" style="display:inline-block"> 
+                    <thead> 
+                        <tr>
+                        <th>Komponen Penilaian</th>
+                        <th>Nilai </th>>
+                        <th>Bobot</th>
+                        <th>Nilai Akhir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template v-for="row in rows">
+                        <tr>
+                        <td>{{row.Komponen_Penilaian}}</td>
+                        <td> <input type="text" name="nilai" id="nilai3"> </td>
+                        <td>{{row.bobot}} </td>
+                        <td>{{row.nilaiAKhir}}</td>
+                        </tr>
+                        </template>
+                    </tbody>
+                </table>
+                
+                <table id="tableAnggotaPenguji2" align="center" style="display:inline-block"> 
+                    <thead> 
+                        <tr>
+                        <th>Tgl: &emsp; / &emsp; /20 &emsp; </th>
+                        </tr>
+                    </thead>
+                    <template v-for="row in rows">
+                    <tbody>
+                        <tr>
+                        <td v-if="row.idx != 1 || row.id !=6":rowspan="2" align="left">{{row.ttd}}</td> 
+                        </tr>
+                    </tbody>
+                    </template>
+                </table>
+    </div>
+      
+
+    
+</body>
+
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+var header1 = new Vue({
+    el:'#judul1',
+    data:{
+        message : 'Rekapitulasi Penilaian SKRIPSI 2 (PEMBIMBING)',
+        npm : 'NPM Mahasiswa : '
+    }
+
+    
+});
+
+var header2 = new Vue({
+    el:'#judul2',
+    data:{
+        message : 'Rekapitulasi Penilaian SKRIPSI 2 (KETUA TIM PENGUJI)',
+        npm : 'NPM Mahasiswa : '
+    }
+
+    
+});
+
+var header3 = new Vue({
+    el:'#judul3',
+    data:{
+        message : 'Rekapitulasi Penilaian SKRIPSI 2 (ANGGOTA TIM PENGUJI)',
+        npm : 'NPM Mahasiswa : '
+    }
+
+    
+});
+
+var tablePembimbing1 = new Vue({
+    el:'#tablePembimbing1',
+    data:{
+        rows:[
+            {Komponen_Penilaian : 'Tata Tulis Laporan',nilai_sidang:'',pTahapan:'',avg:'',bobot:'15%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Kelengkapan Materi',nilai_sidang:'',pTahapan:'',avg:'',bobot:'15%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Poster',nilai_sidang:'',pTahapan:'',avg:'',bobot:'10%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Penguasaan Materi',nilai_sidang:'',pTahapan:'',avg:'',bobot:'30%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Proses Bimbingan',nilai_sidang:'',pTahapan:'',avg:'',bobot:'30%',nilai_akhir:''},
+            {Komponen_Penilaian : ' ',nilai_sidang:'',pTahapan:'',avg:'',bobot:'Total',nilai_akhir:''}
+        ]
+    }
+
+});
+
+
+var tablePembimbing2 = new Vue({
+    el:'#tablePembimbing2',
+    data:{
+        rows:[
+            {ttd : 'Ttd : ' ,   idx:1},
+            {ttd : null     ,   idx:2},
+            {ttd : null     ,   idx:3},
+            {ttd : null     ,   idx:4},
+            {ttd : null     ,   idx:5},
+            {ttd : 'Nama :' ,   idx:6}
+        ]
+    }
+
+});
+
+var tableKetuaPenguji1 = new Vue({
+    el:'#tableKetuaPenguji1',
+    data:{
+        rows:[
+            {Komponen_Penilaian : 'Tata Tulis Laporan',nilai:'',bobot:'15%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Kelengkapan Materi',nilai:'',bobot:'15%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Poster',nilai:'',bobot:'10%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Penguasaan Materi',nilai:'',bobot:'30%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Proses Bimbingan',nilai:'',bobot:'30%',nilai_akhir:''},
+            {Komponen_Penilaian : ' ',nilai_sidang:'',bobot:'Total',nilai_akhir:''}
+        ]
+    }
+
+});
+
+
+var tableKetuaPenguji2 = new Vue({
+    el:'#tableKetuaPenguji2',
+    data:{
+        rows:[
+            {ttd : 'Ttd : ' ,   idx:1},
+            {ttd : null     ,   idx:2},
+            {ttd : null     ,   idx:3},
+            {ttd : null     ,   idx:4},
+            {ttd : null     ,   idx:5},
+            {ttd : 'Nama :' ,   idx:6}
+        ]
+    }
+
+});
+
+var tableAnggotaPenguji1 = new Vue({
+    el:'#tableAnggotaPenguji1',
+    data:{
+        rows:[
+            {Komponen_Penilaian : 'Tata Tulis Laporan',nilai:'',bobot:'15%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Kelengkapan Materi',nilai:'',bobot:'15%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Poster',nilai:'',bobot:'10%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Penguasaan Materi',nilai:'',bobot:'30%',nilai_akhir:''},
+            {Komponen_Penilaian : 'Proses Bimbingan',nilai:'',bobot:'30%',nilai_akhir:''},
+            {Komponen_Penilaian : ' ',nilai_sidang:'',bobot:'Total',nilai_akhir:''}
+        ]
+    }
+
+});
+
+
+var tableAnggotaPenguji2 = new Vue({
+    el:'#tableAnggotaPenguji2',
+    data:{
+        rows:[
+            {ttd : 'Ttd : ' ,   idx:1},
+            {ttd : null     ,   idx:2},
+            {ttd : null     ,   idx:3},
+            {ttd : null     ,   idx:4},
+            {ttd : null     ,   idx:5},
+            {ttd : 'Nama :' ,   idx:6}
+        ]
+    }
+
+});
+
+
+
+
+
+
+var header = new Vue({
+    el:'#footer1',
+    data:{
+        footer : '*beri tanda (-) jika mahasiswa tidak mengikuti sistem bimbingan bertahap'
+    }
+
+    
+});
+</script>
+
+
+</html>
