@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rekapitulasi Penilaian Skripsi 2</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+        h1{
+            margin-top:20px;
+        }
+        .input{
+            margin-top:15px;
+        }
+        .table1{
+            margin-top:15px;
+            text-align : center;          
+        }
+        .table2{
+            margin-top:15px;
+            text-align : center;          
+        }
+        .table3{
+            margin-top:15px;
+            text-align : center;          
+        }
+
+        table{
+            border: 1px solid;  
+           
+        }
+        table th{
+            border-right: 1px solid;
+            border-bottom: 1px solid;
+            padding:15px;
+        }
+        table td{
+            border-right: 1px solid;
+            border-bottom: 1px solid;
+            padding:5px;         
+        }
+
+        .line {
+            margin:5px 0;
+            height:2px;
+            background:
+            repeating-linear-gradient(to right,black 0,black 8px,transparent 8px,transparent 10px)
+            /*5px red then 2px transparent -> repeat this!*/
+        }
+    
+        
+
+    </style>
+</head>
+<body>
+	<div id="judul1" align="center">
+        <h1>{{message}}</h1>
+        <form action="">
+        {{npm}} <input type="text" class="input">
+        </form>
+    </div>
+    <div class="table1" align="center">
+        <table align="center" style="display:inline-block"> 
+            <thead> 
+                <tr>
+                    <th>Komponen Penilaian</th>
+                    <th>Nilai Sidang</th>
+                    <th>Penilaian Tahapan*</th>
+                    <th>Rata - Rata</th>
+                    <th>Bobot</th>
+                    <th>Nilai Akhir</th>
+                </tr>
+            </thead>
+            <tbody id="table_pembimbing">
+            	<tr>
+            		<td>Tata Tulis Laporan</td>
+            		<td><input v-model="tata_tulis_sidang" v-on:keyup="retreiveValueTataTulis" type="text" name=""></td>
+            		<td><input v-model="tahap_tata_tulis" v-on:keyup="retreiveValueTataTulis" type="text" name=""></td>
+            		<td>{{rata_rata_tata_tulis}}</td>
+            		<td>15%</td>
+            		<td>{{val_akhir_tata_tulis}}</td>
+            	</tr>
+            	<tr>
+            		<td>Kelengkapan Materi</td>
+            		<td><input v-model="materi_sidang" v-on:keyup="retreiveValueMateri" type="text" name=""></td>
+            		<td><input v-model="tahap_materi" v-on:keyup="retreiveValueMateri" type="text" name=""></td>
+            		<td>{{rata_rata_materi}}</td>
+            		<td>15%</td>
+            		<td>{{val_akhir_materi}}</td>
+            	</tr>
+            	<tr>
+            		<td colspan="5">Total :</td>
+            		<td>{{total_pembimbing}}</td>
+            	</tr>
+            </tbody>
+        </table>
+        <p id="footer1">{{footer}}<p>
+    </div>
+</body>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript">
+	
+	var table_pembimbing = new Vue({
+		el:'#table_pembimbing',
+	    data:{
+	        tata_tulis_sidang : '',
+	        val_akhir_tata_tulis : '',
+	        tahap_tata_tulis : '',
+	        rata_rata_tata_tulis :  '',
+	        materi_sidang : '',
+	        tahap_materi : '',
+	        rata_rata_materi : '',
+	        val_akhir_materi : '',
+	        total_pembimbing : ''
+	    },
+	    methods:{
+	    	retreiveValueTataTulis :function(){
+	    		var bobot = 0.15;
+	    		this.rata_rata_tata_tulis = 0;
+	    		if(this.tahap_tata_tulis == ""){
+	    			this.rata_rata_tata_tulis = parseInt(this.tata_tulis_sidang);
+	    		}
+	    		else if(this.tahap_tata_tulis != '-'){
+	    			this.rata_rata_tata_tulis = (parseInt(this.tata_tulis_sidang) + parseInt(this.tahap_tata_tulis))/2;
+	    		}
+	    		else{
+	    			this.rata_rata_tata_tulis = parseInt(this.tata_tulis_sidang);
+	    		}
+	    		this.val_akhir_tata_tulis = this.rata_rata_tata_tulis*bobot; 
+	    		this.jumlahkanNilai();
+	    	},
+	    	retreiveValueMateri : function(){
+	    		var bobot = 0.15;
+	    		this.rata_rata_materi = 0;
+	    		if(this.tahap_materi == ""){
+	    			this.rata_rata_materi = parseInt(this.materi_sidang);
+	    		}
+	    		else if(this.tahap_materi != '-'  ){
+	    			this.rata_rata_materi = (parseInt(this.materi_sidang) + parseInt(this.tahap_materi))/2;
+	    		}
+	    		else{
+	    			this.rata_rata_materi = parseInt(this.materi_sidang);
+	    		}
+	    		this.val_akhir_materi = this.rata_rata_materi*bobot; 
+	    		this.jumlahkanNilai();
+	    	},
+	    	jumlahkanNilai : function(){
+	    		this.total_pembimbing = this.val_akhir_tata_tulis + this.val_akhir_materi;
+	    	}
+	    }
+	});
+	var header1 = new Vue({
+	    el:'#judul1',
+	    data:{
+	        message : 'Rekapitulasi Penilaian SKRIPSI 2 (PEMBIMBING)',
+	        npm : 'NPM Mahasiswa : '
+	    }
+	});
+	var footer = new Vue({
+    el:'#footer1',
+    data:{
+        footer : '*beri tanda (-) jika mahasiswa tidak mengikuti sistem bimbingan bertahap'
+    }
+
+    
+});
+</script>
+
+</html>
