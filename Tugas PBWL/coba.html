@@ -62,7 +62,7 @@
 	</div>
 
 	<div class="table1" align="center">
-		<table id="tablePembimbing" align="center" style="display:inline-block"> 
+		<table id="tabel_input_pembimbing" align="center" style="display:inline-block"> 
 			<thead> 
 				<tr>
 					<th>Komponen Penilaian</th>
@@ -78,7 +78,7 @@
 					<td>{{todo.Komponen_Penilaian}}</td>
 					<td><input v-model="todo.nilai_sidang" v-on:keyup="result(todo.id)" type='text' name='nilaiSidang' id='nilaiSidang1' number></td> 
 					<td ><input v-model="todo.pTahapan" v-on:keyup="result(todo.id)" type='text' name='PenilaianTahapan' id='PenilaianTahapan1' number></td> 
-					<td><input   v-model="todo.avg" readonly ></td> 
+					<td>{{todo.avg}}</td> 
 					<td>{{todo.bobot}}</td> 
 					<td>{{todo.nilai_akhir}}</td> 
 				</tr>
@@ -122,7 +122,7 @@
 		</div>
 
 		<div class="table2" align="center">
-			<table id="tableKetuaPenguji1" align="center" style="display:inline-block"> 
+			<table id="tabel_input_ketua_penguji" align="center" style="display:inline-block"> 
 				<thead> 
 					<tr>
 						<th>Komponen Penilaian</th>
@@ -179,7 +179,7 @@
 
 		<div class="table3" align="center">
 
-			<table id="tableAnggotaPenguji1" align="center" style="display:inline-block"> 
+			<table id="tabel_input_anggota_penguji" align="center" style="display:inline-block"> 
 				<thead> 
 					<tr>
 						<th>Komponen Penilaian</th>
@@ -235,8 +235,8 @@
 	<script type="text/javascript">
 		var currentdate = new Date(); 
 		var date = currentdate.getDate() + "/"+ (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear();  
-		var tableKetuaPenguji1 = new Vue({
-			el:'#tableKetuaPenguji1',
+		var tabel_input_ketua_penguji = new Vue({
+			el:'#tabel_input_ketua_penguji',
 			data:{
 				rows:[
 				{id:0,Komponen_Penilaian : 'Tata Tulis Laporan',nilai:'',bobot:'15%',nilai_akhir:'', bobot_angka:'0.15'},
@@ -278,8 +278,8 @@
 				date_now :date
 			}
 		});
-		var tableAnggotaPenguji1 = new Vue({
-			el:'#tableAnggotaPenguji1',
+		var tabel_input_anggota_penguji = new Vue({
+			el:'#tabel_input_anggota_penguji',
 			data:{
 				rows:[
 				{id:'0',Komponen_Penilaian : 'Tata Tulis Laporan',input_nilai:'',bobot:'15%',nilai_akhir:'',bobot_angka:'0.15'},
@@ -356,8 +356,8 @@
 			}
 
 		});
-		var tablePembimbing = new Vue({
-			el: '#tablePembimbing',
+		var tabel_input_pembimbing = new Vue({
+			el: '#tabel_input_pembimbing',
 			data: {
 				rows: [
 				{id: 0,Komponen_Penilaian : 'Tata Tulis Laporan',nilai_sidang:'',pTahapan:'-',avg:'',bobot:'15%',nilai_akhir:'',bobot_angka:'0.15'},
@@ -370,37 +370,39 @@
 			},
 			methods:{
 				result :function(id){
-					this.total = 0;
 					var bobot = this.rows[id].bobot_angka;
 					this.rows[id].avg = 0;
 					var nilai_sidang = this.rows[id].nilai_sidang;
 					if(nilai_sidang == ""){
 						this.rows[id].nilai_akhir = 0;
-						return;
-					}
-					if(this.rows[id].pTahapan != '-' ){
-						if(this.rows[id].pTahapan == ""){
-							this.rows[id].avg = (parseInt(this.rows[id].nilai_sidang));
-						}
-						else{
-							this.rows[id].avg = (parseInt(this.rows[id].nilai_sidang) + parseInt(this.rows[id].pTahapan))/2;
-						}
+						
 					}
 					else{
-
-						this.rows[id].avg = parseInt(this.rows[id].nilai_sidang);
-					}
-
-
-					this.rows[id].nilai_akhir = this.rows[id].avg*bobot;
-					
-					for (var i = 0; i < this.rows.length; i++) {
-						var nilai_akhir = this.rows[i].nilai_akhir;
-						if(nilai_akhir == ""){
-							nilai_akhir = 0;
+						this.total = 0;
+						if(this.rows[id].pTahapan != '-' ){
+							if(this.rows[id].pTahapan == ""){
+								this.rows[id].avg = (parseInt(this.rows[id].nilai_sidang));
+							}
+							else{
+								this.rows[id].avg = (parseInt(this.rows[id].nilai_sidang) + parseInt(this.rows[id].pTahapan))/2;
+							}
 						}
-						this.total += parseFloat(nilai_akhir);
+						else{
+							this.rows[id].avg = parseInt(this.rows[id].nilai_sidang);
+						}
+
+
+						this.rows[id].nilai_akhir = this.rows[id].avg*bobot;
+						
+						for (var i = 0; i < this.rows.length; i++) {
+							var nilai_akhir = this.rows[i].nilai_akhir;
+							if(nilai_akhir == ""){
+								nilai_akhir = 0;
+							}
+							this.total += parseFloat(nilai_akhir);
+						}
 					}
+					
 				}
 			}
 		});
