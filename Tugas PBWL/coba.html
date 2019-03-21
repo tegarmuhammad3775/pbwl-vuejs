@@ -90,23 +90,24 @@
 			</tbody>
 		</table>
 
-		<table id="tablePembimbing2" align="center" style="display:inline-block"> 
+		<table id="footer_pembimbing" align="center" style="display:inline-block"> 
 			<thead> 
 				<tr>
-					<th>Tgl: &emsp; / &emsp; /20 &emsp; </th>
+					<th>Tgl: {{date_now}} </th>
 				</tr>
 			</thead>
 			<template >
 				<tbody>
 					<tr>
-						<td>TTD</td> 
-					</tr>
-					<tr>
-						<td rowspan="4"></td>
-					</tr>
-					<tr>
-						<td>NAMA:</td>
-					</tr>
+							<td rowspan="2"><strong>Tanda Tangan</strong> :<br><textarea></textarea></td> 
+							
+						</tr>
+						<tr>
+							
+						</tr>
+						<tr>
+							<td>Nama : <input type="text" name=""></td>
+						</tr>
 				</tbody>
 			</template>
 		</table>
@@ -146,16 +147,23 @@
 				</tbody>
 			</table>
 
-			<table id="tableKetuaPenguji2" align="center" style="display:inline-block"> 
+			<table id="footer_ketua_penguji" align="center" style="display:inline-block"> 
 				<thead> 
 					<tr>
-						<th>Tgl: &emsp; / &emsp; /20 &emsp; </th>
+						<th>Tgl: {{date_now}} </th>
 					</tr>
 				</thead>
-				<template v-for="row in rows">
+				<template>
 					<tbody>
 						<tr>
-							<td v-if="row.idx != 1 || row.id !=6":rowspan="2" align="left">{{row.ttd}}</td> 
+							<td rowspan="2"><strong>Tanda Tangan</strong> :<br><textarea></textarea></td> 
+							
+						</tr>
+						<tr>
+							
+						</tr>
+						<tr>
+							<td>Nama : <input type="text" name=""></td>
 						</tr>
 					</tbody>
 				</template>
@@ -195,17 +203,23 @@
 					</tr>
 				</tbody>
 			</table>
-
-			<table id="tableAnggotaPenguji2" align="center" style="display:inline-block"> 
+			<table id="footer_anggota_penguji" align="center" style="display:inline-block"> 
 				<thead> 
 					<tr>
-						<th>Tgl: &emsp; / &emsp; /20 &emsp; </th>
+						<th>Tgl: {{date_now}} </th>
 					</tr>
 				</thead>
-				<template v-for="row in rows">
+				<template>
 					<tbody>
 						<tr>
-							<td v-if="row.idx != 1 || row.id !=6":rowspan="2" align="left">{{row.ttd}}</td> 
+							<td rowspan="2"><strong>Tanda Tangan</strong> :<br><textarea></textarea></td> 
+							
+						</tr>
+						<tr>
+							
+						</tr>
+						<tr>
+							<td>Nama : <input type="text" name=""></td>
 						</tr>
 					</tbody>
 				</template>
@@ -219,7 +233,8 @@
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
 
 	<script type="text/javascript">
-
+		var currentdate = new Date(); 
+		var date = currentdate.getDate() + "/"+ (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear();  
 		var tableKetuaPenguji1 = new Vue({
 			el:'#tableKetuaPenguji1',
 			data:{
@@ -257,17 +272,10 @@
 				}
 			}
 		});
-		var tableKetuaPenguji2 = new Vue({
-			el:'#tableKetuaPenguji2',
+		var footer_ketua_penguji = new Vue({
+			el:'#footer_ketua_penguji',
 			data:{
-				rows:[
-				{ttd : 'Ttd : ' ,   idx:1},
-				{ttd : null     ,   idx:2},
-				{ttd : null     ,   idx:3},
-				{ttd : null     ,   idx:4},
-				{ttd : null     ,   idx:5},
-				{ttd : 'Nama :' ,   idx:6}
-				]
+				date_now :date
 			}
 		});
 		var tableAnggotaPenguji1 = new Vue({
@@ -306,30 +314,16 @@
 				}
 			}
 		});
-		var tableAnggotaPenguji2 = new Vue({
-			el:'#tableAnggotaPenguji2',
+		var footer_anggota_penguji = new Vue({
+			el:'#footer_anggota_penguji',
 			data:{
-				rows:[
-				{ttd : 'Ttd : ' ,   idx:1},
-				{ttd : null     ,   idx:2},
-				{ttd : null     ,   idx:3},
-				{ttd : null     ,   idx:4},
-				{ttd : null     ,   idx:5},
-				{ttd : 'Nama :' ,   idx:6}
-				]
+				date_now :date
 			}
 		});
-		var tablePembimbing2 = new Vue({
-			el:'#tablePembimbing2',
+		var footer_pembimbing = new Vue({
+			el:'#footer_pembimbing',
 			data:{
-				rows:[
-				{ttd : 'Ttd : ' ,   idx:1},
-				{ttd : null     ,   idx:2},
-				{ttd : null     ,   idx:3},
-				{ttd : null     ,   idx:4},
-				{ttd : null     ,   idx:5},
-				{ttd : 'Nama :' ,   idx:6}
-				]
+				date_now : date
 			}
 		});
 		var judul_pembimbing = new Vue({
