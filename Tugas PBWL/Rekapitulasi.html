@@ -126,7 +126,7 @@
 				<thead> 
 					<tr>
 						<th>Komponen Penilaian</th>
-						<th>Nilai </th>>
+						<th>Nilai </th>
 						<th>Bobot</th>
 						<th>Nilai Akhir</th>
 					</tr>
@@ -183,7 +183,7 @@
 				<thead> 
 					<tr>
 						<th>Komponen Penilaian</th>
-						<th>Nilai </th>>
+						<th>Nilai </th>
 						<th>Bobot</th>
 						<th>Nilai Akhir</th>
 					</tr>
@@ -238,7 +238,7 @@
 				<option>Genap</option>
 				<option>Ganjil</option>
 			</select>
-			<h5 style="display: inline;">2019/2020</h5>
+			<h5 style="display: inline;">2018/2019</h5>
 		</div>
 		<br>
 		<div class="container" id="berita_acara">
@@ -264,12 +264,13 @@
 					<p>dengan pembimbing dan penguji : </p>
 					<ul>
 						<li>
-							Pembimbing <select class="form-control" style="display: inline; width: 12%;">
-								<option selected="true">Tunggal</option>
-								<option>Utama</option>
+							Pembimbing
+							<select v-on:change="change_status" v-model="is_tunggal" class="form-control" style="display: inline; width: 12%;">
+									<option selected value="true">Tunggal</option>
+									<option >Utama</option>
 							</select>: <input readonly style="width: 60%; display: inline;" class="form-control" type="text" name="" v-model="pembimbing">
 						</li>
-						<li>
+						<li v-if="is_tunggal===false">
 							Pembimbing Pendamping : <input style="width: 62.8%; display: inline;" class="form-control" type="text" name="">
 						</li>
 						<li>
@@ -279,6 +280,66 @@
 							Anggota Tim Penguji : <input readonly style="width: 66.3%; display: inline;" class="form-control" type="text" name="" v-model="anggota_penguji">
 						</li>
 					</ul>
+					<p>Rekapitulasi nilai Sidang Skripsi 2 yang diberikan oleh pembimbing, penguji & koordinator skripsi: </p>
+				</div>
+				<div style="margin-left: 15px;" align="center">
+					<table align="center" style="display:inline-block"> 
+						<thead> 
+							<tr>
+								<th>No</th>
+								<th>Pembimbing / Penguji</th>
+								<th>Nilai</th>
+								<th>Bobot</th>
+								<th>Nilai Akhir</th>
+							</tr>
+						</thead>
+						<tbody>
+							<template v-for="tabel in tabel_nilai" v-if="!tabel.is_koordinator">
+								<tr>
+									<td>{{tabel.no}}</td>
+									<td>{{tabel.tipe_penilai}}</td>
+									<td>{{tabel.nilai}}</td>
+									<td>{{tabel.bobot}} </td>
+									<td>{{tabel.nilai_akhir}}</td>
+								</tr>
+							</template>
+							<template v-for="tabel in tabel_nilai" v-if="tabel.is_koordinator">
+								<tr>
+									<td>{{tabel.no}}</td>
+									<td>{{tabel.tipe_penilai}}</td>
+									<td><input type="text" v-model="nilai_koordinator" v-on:keyup="hitung_nilai" name=""></td>
+									<td>{{tabel.bobot}} </td>
+									<td>{{tabel.nilai_akhir}}</td>
+								</tr>
+							</template>
+							<tr>
+								<td colspan="4">Total : </td>
+								<td>{{total}}</td>
+							</tr>
+						</tbody>
+					</table>
+					<p>Ditetapkan di Bandung, {{tanggal}}</p>
+					<table align="center" style="display:inline-block">
+						<tbody>
+							<tr>
+								<td rowspan="4"><textarea></textarea></td>
+								<td rowspan="4"><textarea></textarea></td>
+								<td rowspan="4"><textarea></textarea></td>
+								<td rowspan="4"><textarea></textarea></td>
+							</tr>
+							<tr></tr>
+							<tr></tr>
+							<tr></tr>
+							<tr></tr>
+							<tr>
+								<td>Ketua Tim Penguji</td>
+								<td>Anggota Tim Penguji</td>
+								<td>Pembimbing</td>
+								<td>Koordinator Skripsi</td>
+							</tr>
+						</tbody>
+						
+					</table>
 				</div>
 			</div>
 		</div>
@@ -302,7 +363,7 @@
 				],
 				total:'',
 				npm_input : '',
-				nama_mhs:'',
+				nama_mhs:''
 			},
 			methods :{
 				result :function(id){
@@ -325,6 +386,8 @@
 							this.total += parseFloat(this.rows[i].nilai_akhir);
 						}
 					}
+					berita_acara.tabel_nilai[0].nilai = this.total;
+					berita_acara.hitung_nilai();
 				}
 			}
 		});
@@ -335,7 +398,53 @@
 				nama_mhs :'',
 				pembimbing : '',
 				ketua_penguji : '',
-				anggota_penguji : ''
+				anggota_penguji : '',
+				tabel_nilai :[
+				{id : 0, no : '1', tipe_penilai : 'Ketua Tim Penguji', nilai :'', bobot: '35%', bobot_angka : '0.35', nilai_akhir : '', is_koordinator : false},
+				{id : 1, no : '2', tipe_penilai : 'Anggota Tim Penguji', nilai :'', bobot: '35%', bobot_angka : '0.35', nilai_akhir : '', is_koordinator : false},
+				{id : 2, no : '3', tipe_penilai : 'Pembimbing', nilai :'', bobot: '20%', bobot_angka : '0.20', nilai_akhir : '', is_koordinator : false},
+				{id : 3, no : '4', tipe_penilai : 'Koordinator Skripsi', nilai :'', bobot: '10%', bobot_angka : '0.10', nilai_akhir : '', is_koordinator : true},
+				],
+				tanggal : date,
+				nilai_koordinator : '',
+				total : '',
+				is_tunggal : 'utama'
+			},
+			methods :{
+				change_status :function(){
+					
+					console.log(this.is_tunggal);
+				},
+				hitung_nilai : function(){
+					// console.log("aaateste");
+					this.total= 0;
+					for (var i = 0; i < this.tabel_nilai.length; i++) {
+						var bobot = this.tabel_nilai[i].bobot_angka;
+
+						if(this.tabel_nilai[i].is_koordinator == true){
+							this.tabel_nilai[i].nilai = this.nilai_koordinator;
+						}
+
+						if(this.tabel_nilai[i].nilai != "" && this.tabel_nilai[i].nilai != 0 && this.tabel_nilai[i].is_koordinator == true){
+							this.tabel_nilai[i].nilai_akhir = this.nilai_koordinator*bobot;
+							console.log("koordinator");
+							this.total += parseFloat(this.tabel_nilai[i].nilai_akhir);
+						}
+						else if (this.tabel_nilai[i].nilai != "" && this.tabel_nilai[i].nilai != 0 && this.tabel_nilai[i].is_koordinator == false) {
+							this.tabel_nilai[i].nilai_akhir = this.tabel_nilai[i].nilai*bobot;
+							console.log("bukan");
+							//console.log(this.tabel_nilai[i].nilai_akhir);
+							this.total += parseFloat(this.tabel_nilai[i].nilai_akhir);
+						}
+						else{
+							this.tabel_nilai[i].nilai_akhir = 0;
+							console.log("0");
+							this.total += parseFloat(this.tabel_nilai[i].nilai_akhir);
+						}
+						
+					}
+
+				}
 			}
 		});
 		var footer_ketua_penguji = new Vue({
@@ -383,6 +492,8 @@
 							this.total += parseFloat(this.rows[i].nilai_akhir);
 						}
 					}
+					berita_acara.tabel_nilai[1].nilai = this.total;
+					berita_acara.hitung_nilai();
 				}
 			}
 		});
@@ -486,6 +597,8 @@
 							}
 							this.total += parseFloat(nilai_akhir);
 						}
+						berita_acara.tabel_nilai[2].nilai = this.total;
+						berita_acara.hitung_nilai();
 					}
 					
 				},
