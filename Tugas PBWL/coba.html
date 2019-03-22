@@ -106,7 +106,7 @@
 							
 						</tr>
 						<tr>
-							<td>Nama : <input type="text" name=""></td>
+							<td>Nama : <input type="text" name="" v-model="nama_pembimbing" v-on:keyup="changeNama"></td>
 						</tr>
 				</tbody>
 			</template>
@@ -163,7 +163,7 @@
 							
 						</tr>
 						<tr>
-							<td>Nama : <input type="text" name=""></td>
+							<td>Nama : <input type="text" name="" v-on:keyup="changeNama" v-model="nama_ketua_penguji"></td>
 						</tr>
 					</tbody>
 				</template>
@@ -219,14 +219,69 @@
 							
 						</tr>
 						<tr>
-							<td>Nama : <input type="text" name=""></td>
+							<td>Nama : <input type="text" name="" v-on:keyup="changeNama" v-model="nama_anggota_penguji"></td>
 						</tr>
 					</tbody>
 				</template>
 			</table>
 		</div>
-
-
+		<div class="line"></div>
+		<br>
+		<div class="header_title">
+			<img style="width: 75%; display: block; margin-left: auto; margin-right: auto;" src="assets/img/header.jpg">
+		</div>
+		<h4 align="center">Berita Acara</h4>
+		<h4 align="center">Sidang Skripsi</h4>
+		<div style="text-align: center; display: block;">
+			<h5 style="display: inline;">Semester :</h5>
+			<select style="width: 20%; display: inline;" class="form-control">
+				<option>Genap</option>
+				<option>Ganjil</option>
+			</select>
+			<h5 style="display: inline;">2019/2020</h5>
+		</div>
+		<br>
+		<div class="container" id="berita_acara">
+			<div class="col-md-12">
+				<p>Telah diselenggarakan Sidang Skripsi untuk mata kuliah AIF184002-05 Skripsi 2 bagi :</p>
+			</div>
+			<div class="col-lg-12">
+				<div class="col-lg-4" style=" display: inline; margin-right: 0px;">
+					<label>NPM :</label>
+					<input style="width: 30%; display: inline;" class="form-control" type="text" name="" readonly="true" v-model="npm_mhs" >
+				</div>
+				<div class="col-lg-6" style=" display: inline; margin-right: 0px;">
+					<label>Nama :</label>
+					<input style="width: 50%;display: inline;" class="form-control" type="text" name="" v-model="nama_mhs" >
+				</div>
+				<br>
+				<br>
+				<div style="margin-left: 15px;">
+					<label>Judul :</label>
+					<input style="width: 89.5%; display: inline;" class="form-control" type="text" name="">
+				</div>
+				<div style="margin-left: 15px;">
+					<p>dengan pembimbing dan penguji : </p>
+					<ul>
+						<li>
+							Pembimbing <select class="form-control" style="display: inline; width: 12%;">
+								<option selected="true">Tunggal</option>
+								<option>Utama</option>
+							</select>: <input readonly style="width: 60%; display: inline;" class="form-control" type="text" name="" v-model="pembimbing">
+						</li>
+						<li>
+							Pembimbing Pendamping : <input style="width: 62.8%; display: inline;" class="form-control" type="text" name="">
+						</li>
+						<li>
+							Ketua Tim Penguji : <input readonly style="width: 68.3%; display: inline;" class="form-control" type="text" name="" v-model="ketua_penguji">
+						</li>
+						<li>
+							Anggota Tim Penguji : <input readonly style="width: 66.3%; display: inline;" class="form-control" type="text" name="" v-model="anggota_penguji">
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
 	</body>
 
 	<script type="text/javascript" src="js/vue.js"></script>
@@ -246,7 +301,8 @@
 				{id:4,Komponen_Penilaian : 'Proses Bimbingan',nilai:'',bobot:'30%',nilai_akhir:'',bobot_angka:'0.3'},
 				],
 				total:'',
-				npm_input : ''
+				npm_input : '',
+				nama_mhs:'',
 			},
 			methods :{
 				result :function(id){
@@ -272,10 +328,26 @@
 				}
 			}
 		});
+		var berita_acara = new Vue({
+			el:'#berita_acara',
+			data:{
+				npm_mhs : '',
+				nama_mhs :'',
+				pembimbing : '',
+				ketua_penguji : '',
+				anggota_penguji : ''
+			}
+		});
 		var footer_ketua_penguji = new Vue({
 			el:'#footer_ketua_penguji',
 			data:{
-				date_now :date
+				date_now :date,
+				nama_ketua_penguji : ''
+			},
+			methods :{
+				changeNama : function(){
+					berita_acara.ketua_penguji = this.nama_ketua_penguji;
+				}
 			}
 		});
 		var tabel_input_anggota_penguji = new Vue({
@@ -317,13 +389,25 @@
 		var footer_anggota_penguji = new Vue({
 			el:'#footer_anggota_penguji',
 			data:{
-				date_now :date
+				date_now :date,
+				nama_anggota_penguji : ''
+			},
+			methods :{
+				changeNama : function(){
+					berita_acara.anggota_penguji = this.nama_anggota_penguji;
+				}
 			}
 		});
 		var footer_pembimbing = new Vue({
 			el:'#footer_pembimbing',
 			data:{
-				date_now : date
+				date_now : date,
+				nama_pembimbing : ''
+			},
+			methods : {
+				changeNama : function(){
+					berita_acara.pembimbing = this.nama_pembimbing;
+				}
 			}
 		});
 		var judul_pembimbing = new Vue({
@@ -336,6 +420,7 @@
 				changeNPM : function(){
 					judul_ketua_penguji.npm_input = this.npm_input;
 					judul_anggota_penguji.npm_input = this.npm_input;
+					berita_acara.npm_mhs = this.npm_input;
 				}
 			}
 
@@ -403,6 +488,9 @@
 						}
 					}
 					
+				},
+				namamhs:function(){
+					berita_acara.nama_mhs = this.nama_mhs  
 				}
 			}
 		});
