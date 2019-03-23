@@ -265,12 +265,12 @@
 					<ul>
 						<li>
 							Pembimbing
-							<select v-on:change="change_status" v-model="is_tunggal" class="form-control" style="display: inline; width: 12%;">
-									<option selected value="true">Tunggal</option>
+							<select  v-model="is_tunggal" class="form-control" style="display: inline; width: 12%;">
+									<option selected >Tunggal</option>
 									<option >Utama</option>
 							</select>: <input readonly style="width: 60%; display: inline;" class="form-control" type="text" name="" v-model="pembimbing">
 						</li>
-						<li v-if="is_tunggal===false">
+						<li v-if="is_tunggal === 'Utama' ">
 							Pembimbing Pendamping : <input style="width: 62.8%; display: inline;" class="form-control" type="text" name="">
 						</li>
 						<li>
@@ -408,13 +408,10 @@
 				tanggal : date,
 				nilai_koordinator : '',
 				total : '',
-				is_tunggal : 'utama'
+				is_tunggal : 'Tunggal',
 			},
 			methods :{
-				change_status :function(){
-					
-					console.log(this.is_tunggal);
-				},
+				
 				hitung_nilai : function(){
 					// console.log("aaateste");
 					this.total= 0;
