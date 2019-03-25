@@ -106,7 +106,7 @@
 							
 						</tr>
 						<tr>
-							<td>Nama : <input type="text" name=""></td>
+							<td>Nama : <input type="text" name="" v-model="nama_pembimbing" v-on:keyup="changeNama"></td>
 						</tr>
 				</tbody>
 			</template>
@@ -126,7 +126,7 @@
 				<thead> 
 					<tr>
 						<th>Komponen Penilaian</th>
-						<th>Nilai </th>>
+						<th>Nilai </th>
 						<th>Bobot</th>
 						<th>Nilai Akhir</th>
 					</tr>
@@ -163,7 +163,7 @@
 							
 						</tr>
 						<tr>
-							<td>Nama : <input type="text" name=""></td>
+							<td>Nama : <input type="text" name="" v-on:keyup="changeNama" v-model="nama_ketua_penguji"></td>
 						</tr>
 					</tbody>
 				</template>
@@ -183,7 +183,7 @@
 				<thead> 
 					<tr>
 						<th>Komponen Penilaian</th>
-						<th>Nilai </th>>
+						<th>Nilai </th>
 						<th>Bobot</th>
 						<th>Nilai Akhir</th>
 					</tr>
@@ -219,14 +219,130 @@
 							
 						</tr>
 						<tr>
-							<td>Nama : <input type="text" name=""></td>
+							<td>Nama : <input type="text" name="" v-on:keyup="changeNama" v-model="nama_anggota_penguji"></td>
 						</tr>
 					</tbody>
 				</template>
 			</table>
 		</div>
-
-
+		<div class="line"></div>
+		<br>
+		<div class="header_title">
+			<img style="width: 75%; display: block; margin-left: auto; margin-right: auto;" src="assets/img/header.jpg">
+		</div>
+		<h4 align="center">Berita Acara</h4>
+		<h4 align="center">Sidang Skripsi</h4>
+		<div style="text-align: center; display: block;">
+			<h5 style="display: inline;">Semester :</h5>
+			<select style="width: 20%; display: inline;" class="form-control">
+				<option>Genap</option>
+				<option>Ganjil</option>
+			</select>
+			<h5 style="display: inline;">2018/2019</h5>
+		</div>
+		<br>
+		<div class="container" id="berita_acara">
+			<div class="col-md-12">
+				<p>Telah diselenggarakan Sidang Skripsi untuk mata kuliah AIF184002-05 Skripsi 2 bagi :</p>
+			</div>
+			<div class="col-lg-12">
+				<div class="col-lg-4" style=" display: inline; margin-right: 0px;">
+					<label>NPM :</label>
+					<input style="width: 30%; display: inline;" class="form-control" type="text" name="" readonly="true" v-model="npm_mhs" >
+				</div>
+				<div class="col-lg-6" style=" display: inline; margin-right: 0px;">
+					<label>Nama :</label>
+					<input style="width: 50%;display: inline;" class="form-control" type="text" name="" v-model="nama_mhs" >
+				</div>
+				<br>
+				<br>
+				<div style="margin-left: 15px;">
+					<label>Judul :</label>
+					<input style="width: 89.5%; display: inline;" class="form-control" type="text" name="">
+				</div>
+				<div style="margin-left: 15px;">
+					<p>dengan pembimbing dan penguji : </p>
+					<ul>
+						<li>
+							Pembimbing
+							<select  v-model="is_tunggal" class="form-control" style="display: inline; width: 12%;">
+									<option selected >Tunggal</option>
+									<option >Utama</option>
+							</select>: <input readonly style="width: 60%; display: inline;" class="form-control" type="text" name="" v-model="pembimbing">
+						</li>
+						<li v-if="is_tunggal === 'Utama' ">
+							Pembimbing Pendamping : <input style="width: 62.8%; display: inline;" class="form-control" type="text" name="">
+						</li>
+						<li>
+							Ketua Tim Penguji : <input readonly style="width: 68.3%; display: inline;" class="form-control" type="text" name="" v-model="ketua_penguji">
+						</li>
+						<li>
+							Anggota Tim Penguji : <input readonly style="width: 66.3%; display: inline;" class="form-control" type="text" name="" v-model="anggota_penguji">
+						</li>
+					</ul>
+					<p>Rekapitulasi nilai Sidang Skripsi 2 yang diberikan oleh pembimbing, penguji & koordinator skripsi: </p>
+				</div>
+				<div style="margin-left: 15px;" align="center">
+					<table align="center" style="display:inline-block"> 
+						<thead> 
+							<tr>
+								<th>No</th>
+								<th>Pembimbing / Penguji</th>
+								<th>Nilai</th>
+								<th>Bobot</th>
+								<th>Nilai Akhir</th>
+							</tr>
+						</thead>
+						<tbody>
+							<template v-for="tabel in tabel_nilai" v-if="!tabel.is_koordinator">
+								<tr>
+									<td>{{tabel.no}}</td>
+									<td>{{tabel.tipe_penilai}}</td>
+									<td>{{tabel.nilai}}</td>
+									<td>{{tabel.bobot}} </td>
+									<td>{{tabel.nilai_akhir}}</td>
+								</tr>
+							</template>
+							<template v-for="tabel in tabel_nilai" v-if="tabel.is_koordinator">
+								<tr>
+									<td>{{tabel.no}}</td>
+									<td>{{tabel.tipe_penilai}}</td>
+									<td><input type="text" v-model="nilai_koordinator" v-on:keyup="hitung_nilai" name=""></td>
+									<td>{{tabel.bobot}} </td>
+									<td>{{tabel.nilai_akhir}}</td>
+								</tr>
+							</template>
+							<tr>
+								<td colspan="4">Total : </td>
+								<td>{{total}}</td>
+							</tr>
+						</tbody>
+					</table>
+					<p>Ditetapkan di Bandung, {{tanggal}}</p>
+					<table align="center" style="display:inline-block">
+						<tbody>
+							<tr>
+								<td rowspan="4"><textarea></textarea></td>
+								<td rowspan="4"><textarea></textarea></td>
+								<td rowspan="4"><textarea></textarea></td>
+								<td rowspan="4"><textarea></textarea></td>
+							</tr>
+							<tr></tr>
+							<tr></tr>
+							<tr></tr>
+							<tr></tr>
+							<tr>
+								<td>Ketua Tim Penguji</td>
+								<td>Anggota Tim Penguji</td>
+								<td>Pembimbing</td>
+								<td>Koordinator Skripsi</td>
+							</tr>
+						</tbody>
+						
+					</table>
+				</div>
+			</div>
+		</div>
 	</body>
 
 	<script type="text/javascript" src="js/vue.js"></script>
@@ -246,7 +362,8 @@
 				{id:4,Komponen_Penilaian : 'Proses Bimbingan',nilai:'',bobot:'30%',nilai_akhir:'',bobot_angka:'0.3'},
 				],
 				total:'',
-				npm_input : ''
+				npm_input : '',
+				nama_mhs:''
 			},
 			methods :{
 				result :function(id){
@@ -269,13 +386,74 @@
 							this.total += parseFloat(this.rows[i].nilai_akhir);
 						}
 					}
+					berita_acara.tabel_nilai[0].nilai = this.total;
+					berita_acara.hitung_nilai();
+				}
+			}
+		});
+		var berita_acara = new Vue({
+			el:'#berita_acara',
+			data:{
+				npm_mhs : '',
+				nama_mhs :'',
+				pembimbing : '',
+				ketua_penguji : '',
+				anggota_penguji : '',
+				tabel_nilai :[
+				{id : 0, no : '1', tipe_penilai : 'Ketua Tim Penguji', nilai :'', bobot: '35%', bobot_angka : '0.35', nilai_akhir : '', is_koordinator : false},
+				{id : 1, no : '2', tipe_penilai : 'Anggota Tim Penguji', nilai :'', bobot: '35%', bobot_angka : '0.35', nilai_akhir : '', is_koordinator : false},
+				{id : 2, no : '3', tipe_penilai : 'Pembimbing', nilai :'', bobot: '20%', bobot_angka : '0.20', nilai_akhir : '', is_koordinator : false},
+				{id : 3, no : '4', tipe_penilai : 'Koordinator Skripsi', nilai :'', bobot: '10%', bobot_angka : '0.10', nilai_akhir : '', is_koordinator : true},
+				],
+				tanggal : date,
+				nilai_koordinator : '',
+				total : '',
+				is_tunggal : 'Tunggal',
+			},
+			methods :{
+				
+				hitung_nilai : function(){
+					// console.log("aaateste");
+					this.total= 0;
+					for (var i = 0; i < this.tabel_nilai.length; i++) {
+						var bobot = this.tabel_nilai[i].bobot_angka;
+
+						if(this.tabel_nilai[i].is_koordinator == true){
+							this.tabel_nilai[i].nilai = this.nilai_koordinator;
+						}
+
+						if(this.tabel_nilai[i].nilai != "" && this.tabel_nilai[i].nilai != 0 && this.tabel_nilai[i].is_koordinator == true){
+							this.tabel_nilai[i].nilai_akhir = this.nilai_koordinator*bobot;
+							console.log("koordinator");
+							this.total += parseFloat(this.tabel_nilai[i].nilai_akhir);
+						}
+						else if (this.tabel_nilai[i].nilai != "" && this.tabel_nilai[i].nilai != 0 && this.tabel_nilai[i].is_koordinator == false) {
+							this.tabel_nilai[i].nilai_akhir = this.tabel_nilai[i].nilai*bobot;
+							console.log("bukan");
+							//console.log(this.tabel_nilai[i].nilai_akhir);
+							this.total += parseFloat(this.tabel_nilai[i].nilai_akhir);
+						}
+						else{
+							this.tabel_nilai[i].nilai_akhir = 0;
+							console.log("0");
+							this.total += parseFloat(this.tabel_nilai[i].nilai_akhir);
+						}
+						
+					}
+
 				}
 			}
 		});
 		var footer_ketua_penguji = new Vue({
 			el:'#footer_ketua_penguji',
 			data:{
-				date_now :date
+				date_now :date,
+				nama_ketua_penguji : ''
+			},
+			methods :{
+				changeNama : function(){
+					berita_acara.ketua_penguji = this.nama_ketua_penguji;
+				}
 			}
 		});
 		
@@ -312,19 +490,33 @@
 							this.total += parseFloat(this.rows[i].nilai_akhir);
 						}
 					}
+					berita_acara.tabel_nilai[1].nilai = this.total;
+					berita_acara.hitung_nilai();
 				}
 			}
 		});
 		var footer_anggota_penguji = new Vue({
 			el:'#footer_anggota_penguji',
 			data:{
-				date_now :date
+				date_now :date,
+				nama_anggota_penguji : ''
+			},
+			methods :{
+				changeNama : function(){
+					berita_acara.anggota_penguji = this.nama_anggota_penguji;
+				}
 			}
 		});
 		var footer_pembimbing = new Vue({
 			el:'#footer_pembimbing',
 			data:{
-				date_now : date
+				date_now : date,
+				nama_pembimbing : ''
+			},
+			methods : {
+				changeNama : function(){
+					berita_acara.pembimbing = this.nama_pembimbing;
+				}
 			}
 		});
 		var judul_pembimbing = new Vue({
@@ -337,6 +529,7 @@
 				changeNPM : function(){
 					judul_ketua_penguji.npm_input = this.npm_input;
 					judul_anggota_penguji.npm_input = this.npm_input;
+					berita_acara.npm_mhs = this.npm_input;
 				}
 			}
 
@@ -402,8 +595,13 @@
 							}
 							this.total += parseFloat(nilai_akhir);
 						}
+						berita_acara.tabel_nilai[2].nilai = this.total;
+						berita_acara.hitung_nilai();
 					}
 					
+				},
+				namamhs:function(){
+					berita_acara.nama_mhs = this.nama_mhs  
 				}
 			}
 		});
